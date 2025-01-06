@@ -44,9 +44,10 @@ Courses.propTypes = {
 //Request only the data your component needs.
 const mapStateToProps = (state) => {
   return {
-    courses: state.courses
-  }
-}
+    courses: state.courses || [] // Provide an empty array if courses is undefined
+  };
+};
+
 
 //Declare what actions to pass to our component on props
 const mapDispatchToProps = (dispatch) => {

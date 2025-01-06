@@ -1,21 +1,11 @@
-// export default function courseReducer(state = [], action) {
-//     switch (action.type) {
-//         case "CREATE_COURSE":
-//             return [...state, action.course]
-//         default:
-//             return state;
-//     }
-// }
-
-
-  export default function courseReducer(state = [], action) {
+const courseReducer = (state = [], action) => {
     switch (action.type) {
-      case 'CREATE_COURSE':
-        return {
-          ...state,
-          courses: [...state.courses, action.course]
-        };
+      case "CREATE_COURSE":
+        return [...state, action.course];
       default:
         return state;
     }
-  };
+  }
+  
+  export default courseReducer;
+  
