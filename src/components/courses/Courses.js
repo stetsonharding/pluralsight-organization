@@ -2,6 +2,7 @@ import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 import * as courseActions from "../../redux/actions/courseActions"
 import PropTypes from 'prop-types'
+import CourseList from './CourseList'
 
 
 
@@ -12,18 +13,17 @@ const Courses = ({ courses, loadCourses }) => {
   // const courses = useSelector( state => state.courses)
 
   useEffect( async () => {
-loadCourses().catch(error => {
-  alert("Loading courses failed" + error)
-});
+loadCourses()
   },[])
 
 
   return (
     <>
       <h2>Courses</h2>
-      {courses.map((course) => (
+      <CourseList courses={courses}/>
+      {/* {courses.map((course) => (
         <div key={course.title}><p>{course.title}</p></div>
-      ))}
+      ))} */}
     </>
 
   )
