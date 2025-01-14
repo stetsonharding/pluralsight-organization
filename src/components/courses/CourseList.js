@@ -24,13 +24,13 @@ const CourseList = ({ courses }) => {
                             <td key={course.id}>
                                 <a
                                     className="btn btn-sm btn-primary"
-                                    href={"http://plurlsight.com/courses" + course.slug}
+                                    href={"http://pluralsight.com/courses" + course.slug}
                                 >
                                     Watch
                                 </a>
                             </td>
-                            <td><Link to={"/course/" + course.slug}></Link>{course.title}</td>
-                            <td>Cory House</td>
+                            <td><Link to={"/course/" + course.slug}>{course.title}</Link></td>
+                            <td>{course.authorId}</td>
                             <td>{course.category}</td>
                             {/* <td><button className="btn btn-sm btn-danger">Delete</button></td> */}
                         </tr>

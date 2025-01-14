@@ -21,9 +21,7 @@ loadCourses()
     <>
       <h2>Courses</h2>
       <CourseList courses={courses}/>
-      {/* {courses.map((course) => (
-        <div key={course.title}><p>{course.title}</p></div>
-      ))} */}
+
     </>
 
   )
