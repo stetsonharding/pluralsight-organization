@@ -1,26 +1,40 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import * as courseActions from "../../redux/actions/courseActions"
+import * as authorActions from "../../redux/actions/authorActions"
 import PropTypes from 'prop-types'
 import CourseList from './CourseList'
 
 
 
-const Courses = ({ courses, loadCourses }) => {
+const Courses = ({ courses, loadCourses, authors, loadAuthors }) => {
+
+  
 
   //Can use these instead of mapStateToProps and mapDispatchToProps if needed. Make sure to import these hooks.
   // const dispatch = useDispatch();
   // const courses = useSelector( state => state.courses)
 
-  useEffect( async () => {
-loadCourses()
-  },[])
+  useEffect(() => {
+
+    if(courses.length === 0) {
+      loadCourses()
+    }
+    
+    if(authors.length === 0) {
+    
+      loadAuthors();
+    }
+  }, [])
+
+
+
 
 
   return (
     <>
       <h2>Courses</h2>
-      <CourseList courses={courses}/>
+      <CourseList courses={courses}  />
 
     </>
 
@@ -30,14 +44,25 @@ loadCourses()
 Courses.propTypes = {
   createCourse: PropTypes.func.isRequired,
   loadCourses: PropTypes.func.isRequired,
-  courses: PropTypes.array.isRequired
+  loadAuthors: PropTypes.func.isRequired,
+  courses: PropTypes.array.isRequired,
+  authors: PropTypes.array.isRequired
 };
 
-//Determines what state is passed to our components via props.
+//Determines what state is passed to our components via props.authors
 //Request only the data your component needs.
 const mapStateToProps = (state) => {
   return {
-    courses: state.courses || [] // Provide an empty array if courses is undefined
+   courses: 
+   state.authors.length === 0 ?
+   [] 
+   : state.courses.map(course => {
+    return {
+      ...course,
+      authorName: state.authors.find(author => author.id === course.authorId).name
+    }
+   }),
+   authors: state.authors 
   };
 };
 
@@ -49,6 +74,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     loadCourses(courses) {
       dispatch(courseActions.loadCourses(courses))
+    },
+    loadAuthors(authors) {
+      dispatch(authorActions.loadAuthors(authors))
     }
 
   }

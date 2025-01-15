@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 const CourseList = ({ courses }) => {
-    console.log(courses)
+  
+
+
     return (
         <table className="table">
             <thead>
@@ -30,7 +32,7 @@ const CourseList = ({ courses }) => {
                                 </a>
                             </td>
                             <td><Link to={"/course/" + course.slug}>{course.title}</Link></td>
-                            <td>{course.authorId}</td>
+                            <td>{course.authorName}</td>
                             <td>{course.category}</td>
                             {/* <td><button className="btn btn-sm btn-danger">Delete</button></td> */}
                         </tr>
@@ -48,7 +50,8 @@ const CourseList = ({ courses }) => {
 
 
 CourseList.propTypes = {
-    courses: PropTypes.array.isRequired
+    courses: PropTypes.array.isRequired,
+    authors: PropTypes.array
 };
 
 export default CourseList
