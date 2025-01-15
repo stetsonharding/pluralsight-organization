@@ -1,50 +1,68 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import * as courseActions from "../../redux/actions/courseActions"
+import * as authorActions from "../../redux/actions/authorActions"
 import PropTypes from 'prop-types'
+import CourseList from './CourseList'
 
 
 
-const Courses = ({courses, createCourse }) => {
+const Courses = ({ courses, loadCourses, authors, loadAuthors }) => {
 
-//Can use these instead of mapStateToProps and mapDispatchToProps if needed. Make sure to import these hooks.
+  
+
+  //Can use these instead of mapStateToProps and mapDispatchToProps if needed. Make sure to import these hooks.
   // const dispatch = useDispatch();
   // const courses = useSelector( state => state.courses)
 
-  const [course, setCourse] = useState({title: ""})
+  useEffect(() => {
 
-  const handleChange = (e) => {
-    setCourse({...course, title: e.target.value})
-  }
+    if(courses.length === 0) {
+      loadCourses()
+    }
+    
+    if(authors.length === 0) {
+    
+      loadAuthors();
+    }
+  }, [])
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    createCourse( course )
-  }
+
+
+
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
       <h2>Courses</h2>
-      <h3>Add Course</h3>
-      <input type='text' onChange={handleChange} value={course.title} />
-      <input type='submit' value="Save" />
-      {courses.map((course) => (
-        <div key={course.title}><p>{course.title}</p></div>
-      ))}
-    </form>
+      <CourseList courses={courses}  />
+
+    </>
+
   )
 }
 
 Courses.propTypes = {
   createCourse: PropTypes.func.isRequired,
-  courses: PropTypes.array.isRequired
+  loadCourses: PropTypes.func.isRequired,
+  loadAuthors: PropTypes.func.isRequired,
+  courses: PropTypes.array.isRequired,
+  authors: PropTypes.array.isRequired
 };
 
-//Determines what state is passed to our components via props.
+//Determines what state is passed to our components via props.authors
 //Request only the data your component needs.
 const mapStateToProps = (state) => {
   return {
-    courses: state.courses || [] // Provide an empty array if courses is undefined
+   courses: 
+   state.authors.length === 0 ?
+   [] 
+   : state.courses.map(course => {
+    return {
+      ...course,
+      authorName: state.authors.find(author => author.id === course.authorId).name
+    }
+   }),
+   authors: state.authors 
   };
 };
 
@@ -53,7 +71,14 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createCourse(course) {
       dispatch(courseActions.createCourse(course))
+    },
+    loadCourses(courses) {
+      dispatch(courseActions.loadCourses(courses))
+    },
+    loadAuthors(authors) {
+      dispatch(authorActions.loadAuthors(authors))
     }
+
   }
 }
 

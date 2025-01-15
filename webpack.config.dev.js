@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { json } = require("stream/consumers");
 
 process.env.NODE_ENV = "development";
 
@@ -20,6 +21,9 @@ module.exports = {
     headers: { "Access-Control-Allow-Origin": "*" }
   },
   plugins: [
+    new webpack.DefinePlugin({
+      "process.env.API_URL": JSON.stringify("http://localhost:3001")
+    }),
     new HtmlWebpackPlugin({
       template: "src/index.html",
       favicon: "src/favicon.ico"
