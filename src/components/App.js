@@ -6,6 +6,7 @@ import Aboutpage from './about/AboutPage'
 import Header from './common/Header'
 import PageNotFound from './PageNotFound'
 import Courses from './courses/Courses'
+import ManageCoursePage from './courses/ManageCoursePage'
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
             <Route path='/' element={<HomePage />} />
             <Route path='/about' element={<Aboutpage />} />
             <Route path='/courses' element={<Courses />} />
+            <Route path='/course/:slug?' element={<ManageCoursePage />} />
             <Route path='*' element={<PageNotFound />} />
         </Routes>
       
