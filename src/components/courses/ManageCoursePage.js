@@ -4,8 +4,8 @@ import CourseForm from './CourseForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadAuthors } from "../../redux/actions/authorActions"
 import { useParams } from 'react-router-dom'
+import { loadCourses, saveCourse } from '../../redux/actions/courseActions'
 
-//import { useParams } from 'react-router-dom'
 
 const ManageCoursePage = () => {
   const [course, setCourse] = useState({
@@ -18,15 +18,23 @@ const ManageCoursePage = () => {
   const dispatch = useDispatch();
   const authors = useSelector(state => state.authors);
   const courses = useSelector(state => state.courses);
-  const {slug} = useParams();
-  
+  const { slug } = useParams();
 
-useEffect(() => {
-if(slug) {
-  let selectedCourse = courses.find(course => course.slug === slug)
-  setCourse(selectedCourse)
-}
-},[])
+
+  useEffect(() => {
+
+    if (courses.length === 0) {
+      dispatch(loadCourses()).catch(error => {
+        alert('loading couses failed' + error)
+      })
+    }else if(slug) {
+
+   setCourse(courses.find(course => course.slug === slug))
+      
+    }
+
+
+  }, [])
 
 
   useEffect(() => {
@@ -41,12 +49,15 @@ if(slug) {
     }))
   }
 
-  console.log(course)
+  function handleSave(e) {
+    e.preventDefault();
+    dispatch(saveCourse(course))
+  }
 
   return (
     <div>
-      <h2>Manage Course</h2>
-      <CourseForm authors={authors} course={course} onChange={handleChange} onSave={() => { }} />
+      <h2>{slug ? "Edit Course" : "Manage Course"}</h2>
+      <CourseForm authors={authors} course={course} onChange={handleChange} onSave={handleSave} />
     </div>
   )
 }

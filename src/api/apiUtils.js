@@ -1,10 +1,9 @@
-export async function handleResponse(res) {
-if(res.ok) return res.json();
-if(res.status === 400) {
-    const error = await res.text();
-    throw new Error(error)
-}
-throw new Error("Network res was no ok.")
+export function handleResponse(response) {
+    if (!response.ok) {
+        console.error("HTTP error", response.status, response.statusText);
+        throw new Error('Network response was not ok');
+    }
+    return response.json();  // Assuming the response body is JSON
 }
 
 
