@@ -8,6 +8,9 @@ export function createCourse(course) {
     return {type: types.CREATE_COURSE, course}
 }
 
+export function updateCourse(course) {
+    return {type: types.UPDATE_COURSE, course}
+}
 
 //Creation of Thunk
 export function loadCourses() {
@@ -26,16 +29,17 @@ export function loadCourses() {
 
 //Creation of Thunk
 export function saveCourse(course) {
+    console.log("Course data 2:", course);
     //A thunk must return a function. Needs to look like this signature.
     //Thunk middlware passes dipatch as an argument to our thunk
     return function(dispatch) {
         //Load courses from api
         return courseApi
         .saveCourse(course)
-        .then(savedCourse => {
+        .then((savedCourse) => {
          course.id
-         ? dispatch({type: types.UPDATE_COURSE, savedCourse}) 
-         : dispatch({type: types.CREATE_COURSE, savedCourse})
+         ? dispatch(updateCourse(savedCourse)) 
+         : dispatch(createCourse(savedCourse))
         }).catch(error => {
             throw error
         })

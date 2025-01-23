@@ -10,23 +10,18 @@ import { useNavigate } from 'react-router-dom'
 
 const Courses = ({ courses, loadCourses, authors, loadAuthors }) => {
 
-
   const navigate = useNavigate(null);
 
   //Can use these instead of mapStateToProps and mapDispatchToProps if needed. Make sure to import these hooks.
   // const dispatch = useDispatch();
   // const courses = useSelector( state => state.courses)
 
-
-
   useEffect(() => {
-
     if (courses.length === 0) {
       loadCourses()
     }
 
     if (authors.length === 0) {
-
       loadAuthors();
     }
   }, [])
@@ -36,7 +31,6 @@ const Courses = ({ courses, loadCourses, authors, loadAuthors }) => {
       <h2>Courses</h2>
       <button className="mb-20 btn btn-primary add-course" onClick={() => navigate('/course')}>Add Course</button>
       <CourseList courses={courses} />
-
     </>
 
   )

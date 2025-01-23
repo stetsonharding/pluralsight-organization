@@ -19,7 +19,8 @@ CourseForm.propTypes = {
   course: PropTypes.object.isRequired,
   onChange: PropTypes.func.isRequired,
   authors: PropTypes.array.isRequired,
-  onSave: PropTypes.func.isRequired
+  onSave: PropTypes.func.isRequired,
+
 
 }
 

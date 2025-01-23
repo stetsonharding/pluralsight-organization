@@ -17,7 +17,8 @@ const CourseList = ({ courses }) => {
                 </tr>
             </thead>
             <tbody>
-                {courses.map(course => {
+                {courses?.map(course => {
+        
                     return (
 
                         <tr key={course.id}>

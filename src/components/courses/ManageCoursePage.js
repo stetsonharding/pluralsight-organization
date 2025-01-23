@@ -3,8 +3,10 @@ import CourseForm from './CourseForm'
 // import {authors} from "../../../tools/mockData"
 import { useDispatch, useSelector } from 'react-redux'
 import { loadAuthors } from "../../redux/actions/authorActions"
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { loadCourses, saveCourse } from '../../redux/actions/courseActions'
+//import { newCourse } from "../../../tools/mockData"
+
 
 
 const ManageCoursePage = () => {
@@ -15,26 +17,26 @@ const ManageCoursePage = () => {
     category: ""
   })
 
+
   const dispatch = useDispatch();
   const authors = useSelector(state => state.authors);
   const courses = useSelector(state => state.courses);
   const { slug } = useParams();
+  const navigate = useNavigate();
+
 
 
   useEffect(() => {
-
     if (courses.length === 0) {
-      dispatch(loadCourses()).catch(error => {
-        alert('loading couses failed' + error)
-      })
-    }else if(slug) {
-
-   setCourse(courses.find(course => course.slug === slug))
-      
+      dispatch(loadCourses())
+    } else if (slug) {
+      const foundCourse = courses.find(course => course.slug === slug)
+      setCourse(foundCourse)
     }
 
 
-  }, [])
+  }, [slug, courses])
+
 
 
   useEffect(() => {
