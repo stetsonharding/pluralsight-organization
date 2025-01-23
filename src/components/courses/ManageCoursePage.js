@@ -18,6 +18,8 @@ const ManageCoursePage = () => {
   })
 
 
+  console.log(course)
+
   const dispatch = useDispatch();
   const authors = useSelector(state => state.authors);
   const courses = useSelector(state => state.courses);
@@ -53,7 +55,10 @@ const ManageCoursePage = () => {
 
   function handleSave(e) {
     e.preventDefault();
-    dispatch(saveCourse(course))
+    dispatch(saveCourse(course)).then(error =>{
+      console.log('error' + error)
+    })
+    navigate('/courses')
   }
 
   return (
