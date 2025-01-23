@@ -16,9 +16,9 @@ const CourseList = ({ courses }) => {
                     <th scope="col">Category</th>
                 </tr>
             </thead>
-
             <tbody>
-                {courses.map(course => {
+                {courses?.map(course => {
+        
                     return (
 
                         <tr key={course.id}>
@@ -36,14 +36,9 @@ const CourseList = ({ courses }) => {
                             <td>{course.category}</td>
                             {/* <td><button className="btn btn-sm btn-danger">Delete</button></td> */}
                         </tr>
-
-
                     )
                 })}
-
             </tbody>
-
-
         </table>
     )
 }
