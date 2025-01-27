@@ -49,7 +49,7 @@ const ManageCoursePage = () => {
     const { name, value } = e.target;
     setCourse(prevCourse => ({
       ...prevCourse,
-      [name]: name === "authorId" ? parseInt(value, 10) : value
+      [name]: name === "authorId" ? parseInt(value) : value
     }))
   }
 
