@@ -8,7 +8,7 @@ const SelectInput = (props) => {
             <select name={props.name} id="select" form={props.form} onChange={props.onChange}>
                 {/* Loop through authors here  */}
                 {props.options.map(data => {
-                    return  <option key={data.id} value={data.name}>{data.name}</option>
+                    return  <option key={data.id} value={data.id}>{data.name}</option>
                 })}
                
             </select>
