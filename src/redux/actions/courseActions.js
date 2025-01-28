@@ -1,5 +1,6 @@
 import * as types from "./actionTypes"
 import * as courseApi from "../../api/courseApi"
+import { beginAPICall } from "./apiStatusActions"
 
 
 
@@ -17,12 +18,16 @@ export function loadCourses() {
     //A thunk must return a function. Needs to look like this signature.
     //Thunk middlware passes dipatch as an argument to our thunk
     return function(dispatch) {
+         //Start API call Status
+         console.log("call")
+        dispatch(beginAPICall())
         //Load courses from api
         return courseApi.getCourse().then(courses => {
             dispatch({type: types.LOAD_COURSES_SUCCESS, courses })
         }).catch(error => {
             throw error
         })
+    
     }
 }
 
@@ -33,6 +38,8 @@ export function saveCourse(course) {
     //A thunk must return a function. Needs to look like this signature.
     //Thunk middlware passes dipatch as an argument to our thunk
     return function(dispatch) {
+        //Start API call Status
+        dispatch(beginAPICall())
         //Load courses from api
         return courseApi
         .saveCourse(course)
@@ -45,4 +52,6 @@ export function saveCourse(course) {
         })
     }
 }
+
+
 
