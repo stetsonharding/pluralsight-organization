@@ -16,15 +16,17 @@ const Courses = ({ courses, loadCourses, authors, loadAuthors, loading }) => {
   //Can use these instead of mapStateToProps and mapDispatchToProps if needed. Make sure to import these hooks.
   // const dispatch = useDispatch();
   // const courses = useSelector( state => state.courses)
-  console.log(loading)
+ 
 
   useEffect(() => {
     if (courses.length === 0) {
+      console.log('use effect for load courses ran')
       loadCourses()
     }
     
     
     if (authors.length === 0) {
+      console.log('use effect for load authors ran')
       loadAuthors();
     }
   }, [])

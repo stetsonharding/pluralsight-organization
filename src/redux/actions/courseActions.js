@@ -19,7 +19,7 @@ export function loadCourses() {
     //Thunk middlware passes dipatch as an argument to our thunk
     return function(dispatch) {
          //Start API call Status
-         console.log("call")
+         console.log("Load COurses Thunk called")
         dispatch(beginAPICall())
         //Load courses from api
         return courseApi.getCourse().then(courses => {
@@ -34,7 +34,7 @@ export function loadCourses() {
 
 //Creation of Thunk
 export function saveCourse(course) {
-    console.log("Course data 2:", course);
+    console.log("Course data for save course thunk:", course);
     //A thunk must return a function. Needs to look like this signature.
     //Thunk middlware passes dipatch as an argument to our thunk
     return function(dispatch) {

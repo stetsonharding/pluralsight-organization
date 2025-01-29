@@ -18,7 +18,7 @@ const ManageCoursePage = () => {
   })
 
 
-  console.log(course)
+
 
   const dispatch = useDispatch();
   const authors = useSelector(state => state.authors);
@@ -42,8 +42,10 @@ const ManageCoursePage = () => {
 
 
   useEffect(() => {
-    dispatch(loadAuthors())
-  }, [])
+    if (authors.length === 0) {
+      dispatch(loadAuthors())
+    }
+  }, [courses])
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -55,10 +57,11 @@ const ManageCoursePage = () => {
 
   function handleSave(e) {
     e.preventDefault();
-    dispatch(saveCourse(course)).then(error =>{
-      console.log('error' + error)
+    dispatch(saveCourse(course)).then(() => {
+      navigate('/courses')
+    }).catch(error => {
+      console.log(error)
     })
-    navigate('/courses')
   }
 
   return (

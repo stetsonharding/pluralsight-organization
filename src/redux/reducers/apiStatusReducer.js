@@ -3,11 +3,13 @@ import initialState from "./initialState"
 
 export default function apiCallStatusReducer(state = initialState.apiCallsInProgress, action) {
    if(action.type == types.BEGIN_API_CALL) {
-      console.log('a'+ JSON.stringify(action) )
+       console.log("API Call Status Reducer if statement ran") 
+       console.log("API Call Status State: " + (state + 1))
       return state + 1;
    }else if(action.type.substring(action.type.length - 8) === "_SUCCESS" ){
-      console.log('b'+ JSON.stringify(action) )
-      console.log('s' + state)
+      console.log("API Call Status Reducer if ELSE statement ran" + action.type) 
+      console.log(action.type )
+      console.log('API Call Status State: ' + (state - 1))
       return state - 1;
    }
 
