@@ -23,6 +23,7 @@ export function loadCourses() {
         dispatch(beginAPICall())
         //Load courses from api
         return courseApi.getCourse().then(courses => {
+
             dispatch({type: types.LOAD_COURSES_SUCCESS, courses })
         }).catch(error => {
             throw error
@@ -48,6 +49,7 @@ export function saveCourse(course) {
          ? dispatch(updateCourse(savedCourse)) 
          : dispatch(createCourse(savedCourse))
         }).catch(error => {
+              dispatch({type: types.API_CALL_FAILED})
             throw error
         })
     }

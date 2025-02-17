@@ -6,7 +6,7 @@ export default function apiCallStatusReducer(state = initialState.apiCallsInProg
        console.log("API Call Status Reducer if statement ran") 
        console.log("API Call Status State: " + (state + 1))
       return state + 1;
-   }else if(action.type.substring(action.type.length - 8) === "_SUCCESS" ||  action.type.substring(action.type.length - 8) === "E_COURSE" ){
+   }else if(action.type.substring(action.type.length - 8) === "_SUCCESS" ||  action.type.substring(action.type.length - 8) === "E_COURSE" || action.type === "API_CALL_FAILED"){
       console.log("API Call Status Reducer if ELSE statement ran" + action.type) 
       console.log(action.type )
       console.log('API Call Status State: ' + (state - 1))

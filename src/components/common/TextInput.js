@@ -11,8 +11,10 @@ const TextInput = (props) => {
       name={props.name} 
       value={props.value} 
       onChange={props.onChange} 
-      placeholder={props.placeholder} />
-    </div>
+      placeholder={props.placeholder} 
+      required
+      />
+   </div>
   )
 }
 
@@ -22,7 +24,8 @@ TextInput.propTypes = {
   value: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  errors: PropTypes.isRequired
 }
 
 export default TextInput

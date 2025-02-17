@@ -6,6 +6,7 @@ import { loadAuthors } from "../../redux/actions/authorActions"
 import { useParams, useNavigate } from 'react-router-dom'
 import { loadCourses, saveCourse } from '../../redux/actions/courseActions'
 //import { newCourse } from "../../../tools/mockData"
+import {toast} from 'react-toastify'
 
 
 
@@ -16,6 +17,8 @@ const ManageCoursePage = () => {
     authorId: null,
     category: ""
   })
+  const [saving, setSaving] = useState(false) 
+  const [errors, setErrors] = useState("")
 
 
 
@@ -55,19 +58,25 @@ const ManageCoursePage = () => {
     }))
   }
 
+
+
   function handleSave(e) {
     e.preventDefault();
-    navigate('/courses')
+    setSaving(true)
     dispatch(saveCourse(course)).then(() => {
+      setErrors("")
+      toast.success("Course Saved")
+      navigate('/courses')
     }).catch(error => {
-      console.log(error)
+      setSaving(false)
+      setErrors(error.message)
     })
   }
 
   return (
     <div>
       <h2>{slug ? "Edit Course" : "Manage Course"}</h2>
-      <CourseForm authors={authors} course={course} onChange={handleChange} onSave={handleSave} />
+      <CourseForm authors={authors} course={course} onChange={handleChange} onSave={handleSave} saving={saving} errors={errors} />
     </div>
   )
 }
