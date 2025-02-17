@@ -57,8 +57,8 @@ const ManageCoursePage = () => {
 
   function handleSave(e) {
     e.preventDefault();
+    navigate('/courses')
     dispatch(saveCourse(course)).then(() => {
-      navigate('/courses')
     }).catch(error => {
       console.log(error)
     })

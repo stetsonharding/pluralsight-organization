@@ -20,8 +20,6 @@ CourseForm.propTypes = {
   onChange: PropTypes.func.isRequired,
   authors: PropTypes.array.isRequired,
   onSave: PropTypes.func.isRequired,
-
-
 }
 
 export default CourseForm
