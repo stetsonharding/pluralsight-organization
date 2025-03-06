@@ -7,14 +7,17 @@ import CourseList from './CourseList'
 import { useNavigate } from 'react-router-dom'
 import Spinner from '../common/Spinner'
 
+// import { deleteCourse } from '../../redux/actions/courseActions'
 
 
-const Courses = ({ courses, loadCourses, authors, loadAuthors, loading }) => {
+
+const Courses = ({ courses, loadCourses, authors, loadAuthors, loading, deleteCourse }) => {
 
   const navigate = useNavigate(null);
 
+
   //Can use these instead of mapStateToProps and mapDispatchToProps if needed. Make sure to import these hooks.
-  // const dispatch = useDispatch();
+
   // const courses = useSelector( state => state.courses)
  
 
@@ -23,22 +26,29 @@ const Courses = ({ courses, loadCourses, authors, loadAuthors, loading }) => {
       console.log('use effect for load courses ran')
       loadCourses()
     }
-    
-    
     if (authors.length === 0) {
       console.log('use effect for load authors ran')
       loadAuthors();
     }
   }, [])
 
+    const handleDeleteCourse = course => {
+      // toast.success("Course deleted");
+      try {
+        console.log("C " + course)
+   deleteCourse(course)
+      } catch (error) {
+        console.log('hello')
+        //toast.error("Delete failed. " + error.message, { autoClose: false });
+      }
+    };
 
   return (
     <>
       <h2>Courses</h2>
       {loading ? <Spinner /> : <> <button className="mb-20 btn btn-primary add-course" onClick={() => navigate('/course')}>Add Course</button>
-      <CourseList courses={courses} /></>}
+      <CourseList handleDeleteCourse={handleDeleteCourse} courses={courses} /></>}
     </>
-
 )
 }
 
@@ -49,7 +59,9 @@ Courses.propTypes = {
   loadAuthors: PropTypes.func.isRequired,
   courses: PropTypes.array.isRequired,
   authors: PropTypes.array.isRequired,
-  loading: PropTypes.number.isRequired
+  loading: PropTypes.number.isRequired,
+  deleteCourse: PropTypes.func.isRequired
+  
 };
 
 //Determines what state is passed to our components via props.authors
@@ -82,9 +94,11 @@ const mapDispatchToProps = (dispatch) => {
     },
     loadAuthors(authors) {
       dispatch(authorActions.loadAuthors(authors))
-    }
-
-  }
+    },
+    deleteCourse(course) {
+      dispatch(courseActions.deleteCourse(course))
+    },
+}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Courses) 

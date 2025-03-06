@@ -20,7 +20,20 @@ export function saveCourse(course) {
 }
 
 export function deleteCourse(courseId) {
+  console.log(baseUrl + (courseId))
     return fetch(baseUrl + courseId, { method: 'DELETE' })
         .then(handleResponse)
         .then(handleError)
 }
+
+// export function deleteCourse(courseId) {
+//     return fetch(`${baseUrl}/courses/${courseId}`, { method: "DELETE" })
+//         .then(async response => {
+//             console.log("Delete response:", response);
+//             if (!response.ok) {
+//                 throw new Error("API call failed");
+//             }
+//             return response.json();
+//         })
+//         .catch(handleError);
+// }
