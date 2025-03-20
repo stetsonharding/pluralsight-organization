@@ -62,17 +62,45 @@ export function saveCourse(course) {
 }
 
 
+// export function deleteCourse(course) {
+//     console.log('Calling deleteCourse with: ' + course);
+//     return function (dispatch) {
+//         console.log("Inside deleteCourse thunk");
+//         return courseApi.deleteCourse(course)
+//         .then(() => {
+//                 console.log(course)
+//                 console.log("After delete, dispatching deleteCourseOptimistic");
+//                 dispatch(deleteCourseOptimistic(course));
+//             });
+//     };
+// }
+
+// export function deleteCourse(course) {
+//   return function(dispatch) {
+//     // Doing optimistic delete, so not dispatching begin/end api call
+//     // actions, or apiCallError action since we're not showing the loading status for this.
+//     dispatch(deleteCourseOptimistic(course.id));
+//     return courseApi.deleteCourse(course.id);
+//   };
+// }
+
 export function deleteCourse(course) {
-    console.log('Calling deleteCourse with: ' + course);
-    return function (dispatch) {
-        console.log("Inside deleteCourse thunk");
-        return courseApi.deleteCourse(course)
-            .then(() => {
-                console.log("After delete, dispatching deleteCourseOptimistic");
-                dispatch(deleteCourseOptimistic(course));
-            });
+    return function(dispatch) {
+      console.log("Dispatching deleteCourseOptimistic for ID:", course);
+  
+      // Optimistically update state before the API call
+      dispatch(deleteCourseOptimistic(course));
+  
+      // Return API call to ensure it runs
+      return courseApi.deleteCourse(course)
+        .then(() => {
+          console.log("API call completed for deleteCourse:", course);
+        })
+        .catch((error) => {
+          console.error("API delete failed:", error.message);
+        });
     };
-}
+  }
+  
 
-
-
+  

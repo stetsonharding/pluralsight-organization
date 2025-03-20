@@ -20,6 +20,7 @@ export function saveCourse(course) {
 }
 
 export function deleteCourse(courseId) {
+  console.log('glaks ' + courseId)
   console.log(baseUrl + (courseId))
     return fetch(baseUrl + courseId, { method: 'DELETE' })
         .then(handleResponse)
