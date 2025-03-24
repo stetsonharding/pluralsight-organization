@@ -5,48 +5,70 @@ import * as authorActions from "../../redux/actions/authorActions"
 import PropTypes from 'prop-types'
 import CourseList from './CourseList'
 import { useNavigate } from 'react-router-dom'
+import Spinner from '../common/Spinner'
+import {toast} from 'react-toastify'
+
+// import { deleteCourse } from '../../redux/actions/courseActions'
 
 
 
-const Courses = ({ courses, loadCourses, authors, loadAuthors }) => {
+const Courses = ({ courses, loadCourses, authors, loadAuthors, loading, deleteCourse }) => {
 
   const navigate = useNavigate(null);
 
+
   //Can use these instead of mapStateToProps and mapDispatchToProps if needed. Make sure to import these hooks.
-  // const dispatch = useDispatch();
+
   // const courses = useSelector( state => state.courses)
+ 
 
   useEffect(() => {
     if (courses.length === 0) {
+      console.log('use effect for load courses ran')
       loadCourses()
     }
-
     if (authors.length === 0) {
+      console.log('use effect for load authors ran')
       loadAuthors();
     }
   }, [])
 
+    const handleDeleteCourse = async course => {
+       toast.success("Course deleted");
+      try {
+        console.log("C " + course)
+   await deleteCourse(course)
+      } catch (error) {
+        console.log('hello')
+        toast.error("Delete failed. " + error.message, { autoClose: false });
+      }
+    };
+
   return (
     <>
       <h2>Courses</h2>
-      <button className="mb-20 btn btn-primary add-course" onClick={() => navigate('/course')}>Add Course</button>
-      <CourseList courses={courses} />
+      {loading ? <Spinner /> : <> <button className="mb-20 btn btn-primary add-course" onClick={() => navigate('/course')}>Add Course</button>
+      <CourseList handleDeleteCourse={handleDeleteCourse} courses={courses} /></>}
     </>
-
-  )
+)
 }
+
 
 Courses.propTypes = {
   createCourse: PropTypes.func.isRequired,
   loadCourses: PropTypes.func.isRequired,
   loadAuthors: PropTypes.func.isRequired,
   courses: PropTypes.array.isRequired,
-  authors: PropTypes.array.isRequired
+  authors: PropTypes.array.isRequired,
+  loading: PropTypes.number.isRequired,
+  deleteCourse: PropTypes.func.isRequired
+  
 };
 
 //Determines what state is passed to our components via props.authors
 //Request only the data your component needs.
 const mapStateToProps = (state) => {
+ 
   return {
     courses:
       state.authors.length === 0 ?
@@ -57,7 +79,8 @@ const mapStateToProps = (state) => {
             authorName: state.authors.find(author => author.id === course.authorId).name
           }
         }),
-    authors: state.authors
+    authors: state.authors,
+    loading: state.apiCallsInProgress
   };
 };
 
@@ -72,9 +95,11 @@ const mapDispatchToProps = (dispatch) => {
     },
     loadAuthors(authors) {
       dispatch(authorActions.loadAuthors(authors))
-    }
-
-  }
+    },
+    deleteCourse(course) {
+      dispatch(courseActions.deleteCourse(course))
+    },
+}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Courses) 

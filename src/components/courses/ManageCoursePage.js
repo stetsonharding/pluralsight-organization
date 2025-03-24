@@ -6,6 +6,7 @@ import { loadAuthors } from "../../redux/actions/authorActions"
 import { useParams, useNavigate } from 'react-router-dom'
 import { loadCourses, saveCourse } from '../../redux/actions/courseActions'
 //import { newCourse } from "../../../tools/mockData"
+import {toast} from 'react-toastify'
 
 
 
@@ -16,9 +17,11 @@ const ManageCoursePage = () => {
     authorId: null,
     category: ""
   })
+  const [saving, setSaving] = useState(false) 
+  const [errors, setErrors] = useState("")
 
 
-  console.log(course)
+
 
   const dispatch = useDispatch();
   const authors = useSelector(state => state.authors);
@@ -42,8 +45,10 @@ const ManageCoursePage = () => {
 
 
   useEffect(() => {
-    dispatch(loadAuthors())
-  }, [])
+    if (authors.length === 0) {
+      dispatch(loadAuthors())
+    }
+  }, [courses])
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -53,18 +58,27 @@ const ManageCoursePage = () => {
     }))
   }
 
+
+
+
+
   function handleSave(e) {
     e.preventDefault();
-    dispatch(saveCourse(course)).then(error =>{
-      console.log('error' + error)
+    setSaving(true)
+    dispatch(saveCourse(course)).then(() => {
+      setErrors("")
+      toast.success("Course Saved")
+      navigate('/courses')
+    }).catch(error => {
+      setSaving(false)
+      setErrors(error.message)
     })
-    navigate('/courses')
   }
 
   return (
     <div>
       <h2>{slug ? "Edit Course" : "Manage Course"}</h2>
-      <CourseForm authors={authors} course={course} onChange={handleChange} onSave={handleSave} />
+      <CourseForm authors={authors} course={course} onChange={handleChange} onSave={handleSave} saving={saving} errors={errors} />
     </div>
   )
 }
