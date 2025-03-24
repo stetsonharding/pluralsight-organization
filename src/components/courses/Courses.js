@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import CourseList from './CourseList'
 import { useNavigate } from 'react-router-dom'
 import Spinner from '../common/Spinner'
+import {toast} from 'react-toastify'
 
 // import { deleteCourse } from '../../redux/actions/courseActions'
 
@@ -32,14 +33,14 @@ const Courses = ({ courses, loadCourses, authors, loadAuthors, loading, deleteCo
     }
   }, [])
 
-    const handleDeleteCourse = course => {
-      // toast.success("Course deleted");
+    const handleDeleteCourse = async course => {
+       toast.success("Course deleted");
       try {
         console.log("C " + course)
-   deleteCourse(course)
+   await deleteCourse(course)
       } catch (error) {
         console.log('hello')
-        //toast.error("Delete failed. " + error.message, { autoClose: false });
+        toast.error("Delete failed. " + error.message, { autoClose: false });
       }
     };
 
